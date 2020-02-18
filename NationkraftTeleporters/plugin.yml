@@ -1,0 +1,7 @@
+name: NationkraftTeleporters
+author: Benjamin Frost
+main: dk.nationkraft.teleporters.teleporters
+version: 1.0.0
+commands:
+  nkt:
+    description: Controls for NationkraftTeleporters
