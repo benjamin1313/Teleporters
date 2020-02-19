@@ -1,6 +1,6 @@
 name: NationkraftTeleporters
 author: Benjamin Frost
-main: dk.nationkraft.teleporters.teleporters
+main: dk.nationkraft.teleporters.Teleporters
 version: 1.0.0
 commands:
   nkt:
