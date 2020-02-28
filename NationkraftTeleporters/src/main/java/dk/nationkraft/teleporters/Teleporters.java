@@ -20,7 +20,9 @@ public class Teleporters extends JavaPlugin{
 		saveDefaultConfig();
 		
 		// setup for custom configfile med liste over teleporters på severen
-		FileManager.setupTeleporterList();
+		TeleporterListManager.setupTeleporterList();
+		
+		TeleporterTool.setTooltype(getConfig().getString("Tool").toUpperCase());
 		
 		getLogger().info("NKT enabled");
 	}

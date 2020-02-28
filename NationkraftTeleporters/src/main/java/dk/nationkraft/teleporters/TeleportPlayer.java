@@ -9,6 +9,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class TeleportPlayer implements Listener{
 	
+	// skaffer spillerenes retning sådan de kan blive placeret en block
+	// forskudt i den retning, For at påden måde undgå at de bliver 
+	// teleporteret frem og tilbage mellem de to teleportere. 
 	private String getDirection(Player player) {
 	    double rot = (player.getLocation().getYaw() - 90) % 360;
 	    if (rot < 0) {
@@ -31,8 +34,8 @@ public class TeleportPlayer implements Listener{
 	public void onPlayerMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
 		Integer[] playerLoc = {player.getLocation().getBlockX(), player.getLocation().getBlockY()-1, player.getLocation().getBlockZ()};
-		if(FileManager.isTeleporter(playerLoc)) {
-			Integer[] des = FileManager.getTeleporterCords(playerLoc);
+		if(TeleporterListManager.isTeleporter(playerLoc)) {
+			Integer[] des = TeleporterListManager.getTeleporterCords(playerLoc);
 			String direction = getDirection(player);
 			
 			Location destenation = null;

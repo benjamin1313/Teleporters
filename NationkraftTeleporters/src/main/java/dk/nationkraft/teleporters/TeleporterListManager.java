@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class FileManager {
+public class TeleporterListManager {
 	private static File file;
 	private static FileConfiguration customFile;
 	
@@ -55,6 +55,13 @@ public class FileManager {
 				customFile.getInt("teleporter"+location[0]+location[1]+location[2]+".destenation.y"),
 				customFile.getInt("teleporter"+location[0]+location[1]+location[2]+".destenation.z")};
 		return destenation;
+	}
+	
+	public static void deleteTeleportres(Integer[] location) { // hvis du har cords på en af teleporterne sletter denne begge dem som er linked sammen
+		Integer[] destenation = getTeleporterCords(location);
+		customFile.set("teleporter"+location[0]+location[1]+location[2], null);
+		customFile.set("teleporter"+destenation[0]+destenation[1]+destenation[2], null);
+		saveTeleporterList();
 	}
 	
 }
