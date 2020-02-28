@@ -56,6 +56,10 @@ public class Teleporters extends JavaPlugin{
 					return true;
 				}
 				else if(args[0].equalsIgnoreCase("tool")) {
+					if(!sender.hasPermission("nkt.teleporterToolCommand")) {
+			    		sender.sendMessage(ChatColor.RED + "Du har ikke lov til at bruge denne kommando.");
+						return false;
+					}
 					sender.sendMessage(ChatColor.AQUA + "Værseartig en tryllestav til dig.");
 					final Player senderPlayer = (sender instanceof Player) ? (Player)sender : null;
 					TeleporterTool.giveTool(senderPlayer);

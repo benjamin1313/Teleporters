@@ -56,6 +56,10 @@ public class TeleporterTool implements Listener{
 			
 			if(Material.GOLD_BLOCK == event.getClickedBlock().getType() && player.getEquipment().getItemInMainHand().getType() == toolType) {
 				
+				if(!player.hasPermission("nkt.createTeleporter")) { // hvis spilleren ikke har perm til at lave en teleporter sker der intet.
+					return;
+				}
+				
 				if(!player.getWorld().equals(Bukkit.getServer().getWorld("world"))) {
 					player.sendMessage(ChatColor.AQUA + "Teleportere er ikke tilladt i denne verden.");
 					return;
@@ -125,6 +129,7 @@ public class TeleporterTool implements Listener{
     public void onBlockBreak(BlockBreakEvent event) {
     	Player player = event.getPlayer();
     	
+    	
     	Block block = event.getBlock();
     	
     	if(block.getBlockData().getMaterial() == Material.LIME_CARPET && TeleporterListManager.isTeleporter(new Integer[] {block.getX(),block.getY()-1,block.getZ()})) {
@@ -136,6 +141,12 @@ public class TeleporterTool implements Listener{
     	if(!TeleporterListManager.isTeleporter(new Integer[] {block.getX(),block.getY(),block.getZ()})) {
     		return;
     	}
+    	
+    	if(!player.hasPermission("nkt.deleteTeleporter")) {
+    		event.setCancelled(true);
+    		player.sendMessage(ChatColor.RED + "Du har ikke lov til at ødelægge teleporters.");
+			return;
+		}
     	
     	if(block.getBlockData().getMaterial() == Material.GOLD_BLOCK) {
     		Integer[] loc = TeleporterListManager.getTeleporterCords(new Integer[] {block.getX(),block.getY(),block.getZ()});

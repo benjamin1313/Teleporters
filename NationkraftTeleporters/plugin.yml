@@ -6,3 +6,12 @@ api-version: 1.13
 commands:
   nkt:
     description: Controls for NationkraftTeleporters
+permissions:
+  nkt.*:
+    description: nkt permissions
+    children:
+      nkt.useTeleporter: true
+      nkt.createTeleporter: false
+      nkt.deleteTeleporter: false
+      nkt.teleporterToolCommand: false
+      

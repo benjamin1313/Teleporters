@@ -32,7 +32,13 @@ public class TeleportPlayer implements Listener{
 	
 	@EventHandler // holder øje med om spiller går oven på en teleporter
 	public void onPlayerMove(PlayerMoveEvent event){
+		
 		Player player = event.getPlayer();
+		
+		if(!player.hasPermission("nkt.useTeleporter")) { // hvis spilleren ikke har perm til at bruge en teleporter sker der intet.
+			return;
+		}
+		
 		Integer[] playerLoc = {player.getLocation().getBlockX(), player.getLocation().getBlockY()-1, player.getLocation().getBlockZ()};
 		if(TeleporterListManager.isTeleporter(playerLoc)) {
 			Integer[] des = TeleporterListManager.getTeleporterCords(playerLoc);
