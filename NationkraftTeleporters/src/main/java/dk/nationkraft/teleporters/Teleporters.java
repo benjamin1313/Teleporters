@@ -66,7 +66,7 @@ public class Teleporters extends JavaPlugin{
 					return true;
 				}
 				else if(args[0].equalsIgnoreCase("list")) {
-					sender.sendMessage(ChatColor.AQUA + "Her er er en liste med alle teleporters på serveren.");
+					TeleporterListManager.showListOfTeleporters(sender);
 					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "ugyldig kommando.");

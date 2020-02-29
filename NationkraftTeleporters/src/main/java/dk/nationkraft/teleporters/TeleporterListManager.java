@@ -2,8 +2,11 @@ package dk.nationkraft.teleporters;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -40,28 +43,41 @@ public class TeleporterListManager {
 	}
 	
 	public static void addTeleporter(Integer[] location, Integer[] destenation) {// X, Y, Z
-		customFile.set("teleporter"+location[0]+location[1]+location[2]+".destenation.x", destenation[0]);
-		customFile.set("teleporter"+location[0]+location[1]+location[2]+".destenation.y", destenation[1]);
-		customFile.set("teleporter"+location[0]+location[1]+location[2]+".destenation.z", destenation[2]);
+		customFile.set("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]+".destenation.x", destenation[0]);
+		customFile.set("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]+".destenation.y", destenation[1]);
+		customFile.set("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]+".destenation.z", destenation[2]);
 		saveTeleporterList();
 	}
 	
 	public static boolean isTeleporter(Integer[] location) {
-		return customFile.isSet("teleporter"+location[0]+location[1]+location[2]);
+		return customFile.isSet("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]);
 	}
 	
 	public static Integer[] getTeleporterCords(Integer[] location) {
-		Integer[] destenation = {customFile.getInt("teleporter"+location[0]+location[1]+location[2]+".destenation.x"),
-				customFile.getInt("teleporter"+location[0]+location[1]+location[2]+".destenation.y"),
-				customFile.getInt("teleporter"+location[0]+location[1]+location[2]+".destenation.z")};
+		Integer[] destenation = {customFile.getInt("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]+".destenation.x"),
+				customFile.getInt("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]+".destenation.y"),
+				customFile.getInt("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2]+".destenation.z")};
 		return destenation;
 	}
 	
 	public static void deleteTeleportres(Integer[] location) { // hvis du har cords på en af teleporterne sletter denne begge dem som er linked sammen
 		Integer[] destenation = getTeleporterCords(location);
-		customFile.set("teleporter"+location[0]+location[1]+location[2], null);
-		customFile.set("teleporter"+destenation[0]+destenation[1]+destenation[2], null);
+		customFile.set("teleporterX"+location[0]+"Y"+location[1]+"Z"+location[2], null);
+		customFile.set("teleporterX"+destenation[0]+"Y"+destenation[1]+"Z"+destenation[2], null);
 		saveTeleporterList();
+	}
+	
+	// TODO: Make them show up on multiple pages.
+	public static void showListOfTeleporters(CommandSender sender){
+		Set<String> teleporters = customFile.getKeys(false);
+		
+		int amount = teleporters.size();
+		
+		sender.sendMessage(ChatColor.AQUA + "Her er er en liste med alle "+amount+" teleporters på serveren.");
+		
+		for(String teleporter : teleporters) {
+			sender.sendMessage(teleporter);
+		}
 	}
 	
 }
