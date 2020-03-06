@@ -1,4 +1,4 @@
-package dk.nationkraft.teleporters;
+package dk.benjamin1313.teleporters;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,12 +7,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dk.nationkraft.teleporters.TeleporterTool;
+import dk.benjamin1313.teleporters.TeleporterManager;
 
 public class Teleporters extends JavaPlugin{
 	
 	public void onEnable(){
-		getServer().getPluginManager().registerEvents(new TeleporterTool(), this);
+		getServer().getPluginManager().registerEvents(new TeleporterManager(), this);
 		getServer().getPluginManager().registerEvents(new TeleportPlayer(), this);
 		
 		// Generere en tom default config fil
@@ -22,7 +22,7 @@ public class Teleporters extends JavaPlugin{
 		// setup for custom configfile med liste over teleporters på severen
 		TeleporterListManager.setupTeleporterList();
 		
-		TeleporterTool.setTooltype(getConfig().getString("Tool").toUpperCase());
+		TeleporterManager.setToolVars(getConfig());
 		
 		getLogger().info("NKT enabled");
 	}
@@ -38,7 +38,7 @@ public class Teleporters extends JavaPlugin{
 			sender.sendMessage("Sorry but this plugin is ment to be used in game.");
 			return false;
 		}
-		if (cmd.getName().equalsIgnoreCase("nkt")) {
+		if (cmd.getName().equalsIgnoreCase("teleporters")) {
 			if(args.length == 0) {
 				sender.sendMessage(ChatColor.YELLOW + "------------------Teleporters V1.0.0------------------");
 				sender.sendMessage(ChatColor.AQUA + "Lavet af benjamin1313");
@@ -56,13 +56,13 @@ public class Teleporters extends JavaPlugin{
 					return true;
 				}
 				else if(args[0].equalsIgnoreCase("tool")) {
-					if(!sender.hasPermission("nkt.teleporterToolCommand")) {
+					if(!sender.hasPermission("teleporter.teleporterToolCommand")) {
 			    		sender.sendMessage(ChatColor.RED + "Du har ikke lov til at bruge denne kommando.");
 						return false;
 					}
 					sender.sendMessage(ChatColor.AQUA + "Værseartig en tryllestav til dig.");
 					final Player senderPlayer = (sender instanceof Player) ? (Player)sender : null;
-					TeleporterTool.giveTool(senderPlayer);
+					TeleporterManager.giveTool(senderPlayer);
 					return true;
 				}
 				else if(args[0].equalsIgnoreCase("list")) {

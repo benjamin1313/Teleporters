@@ -1,14 +1,18 @@
-package dk.nationkraft.teleporters;
+package dk.benjamin1313.teleporters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,14 +23,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class TeleporterTool implements Listener{
+public class TeleporterManager implements Listener{
 	
 	public HashMap<Player, Integer[]> toolUsers = new HashMap<>();
 
-	static Material toolType =  Material.DIAMOND_HOE; // set to diamond hoe per default
-	static String toolName = "Magisk Teleporter Tryllestav";
-	static String toolLore1 = "En magisk tryllestav som kan bøjge tid og rum.";
-	static String toolLore2 = "Hvilket tillader brugeren at lave teleporters";
+	static Material toolType;
+	static String toolName;
+	static List<String> toolLore;
 	
 	
 	public static void giveTool(Player player) {
@@ -34,15 +37,18 @@ public class TeleporterTool implements Listener{
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(toolName);
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(toolLore1);
-		lore.add(toolLore2);
+		for (int i = 0; i < toolLore.size(); i++) {
+			lore.add(toolLore.get(i));
+		}
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 		player.getInventory().addItem(item);
 	}
 	
-	public static void setTooltype(String name) {
-		toolType = Material.getMaterial(name);
+	public static void setToolVars(FileConfiguration config) {
+		toolType = Material.getMaterial(config.getString("ToolMaterial").toUpperCase());
+		toolName = config.getString("ToolName");
+		toolLore = config.getStringList("ToolLore");
 	}
 	
 	
@@ -56,7 +62,7 @@ public class TeleporterTool implements Listener{
 			
 			if(Material.GOLD_BLOCK == event.getClickedBlock().getType() && player.getEquipment().getItemInMainHand().getType() == toolType) {
 				
-				if(!player.hasPermission("nkt.createTeleporter")) { // hvis spilleren ikke har perm til at lave en teleporter sker der intet.
+				if(!player.hasPermission("teleporter.createTeleporter")) { // hvis spilleren ikke har perm til at lave en teleporter sker der intet.
 					return;
 				}
 				
@@ -128,9 +134,8 @@ public class TeleporterTool implements Listener{
     @EventHandler // Holder øje med om spillere ødelægger en teleporter block vis ja så fejl teleporters fra listen.
     public void onBlockBreak(BlockBreakEvent event) {
     	Player player = event.getPlayer();
-    	
-    	
     	Block block = event.getBlock();
+    	World world = block.getWorld();
     	
     	if(block.getBlockData().getMaterial() == Material.LIME_CARPET && TeleporterListManager.isTeleporter(new Integer[] {block.getX(),block.getY()-1,block.getZ()})) {
     		player.sendMessage(ChatColor.AQUA + "Dette er del af en teleporter.");
@@ -142,7 +147,7 @@ public class TeleporterTool implements Listener{
     		return;
     	}
     	
-    	if(!player.hasPermission("nkt.deleteTeleporter")) {
+    	if(!player.hasPermission("teleporter.deleteTeleporter")) {
     		event.setCancelled(true);
     		player.sendMessage(ChatColor.RED + "Du har ikke lov til at ødelægge teleporters.");
 			return;
@@ -154,6 +159,11 @@ public class TeleporterTool implements Listener{
     		Bukkit.getServer().getWorld("world").getBlockAt(block.getX(),block.getY()+1,block.getZ()).setType(Material.AIR);
     		Bukkit.getServer().getWorld("world").getBlockAt(loc[0], loc[1]+1, loc[2]).setType(Material.AIR);
     		Bukkit.getServer().getWorld("world").getBlockAt(loc[0], loc[1], loc[2]).setType(Material.AIR);
+    		
+    		if(player.getGameMode().equals(GameMode.SURVIVAL)) {
+    			world.dropItem(block.getLocation(), new ItemStack(Material.GOLD_BLOCK, 1));
+    		}
+    		
     		player.sendMessage(ChatColor.AQUA + "Teleporter i begge ender er nu ødelagt.");
     		return;
     	}

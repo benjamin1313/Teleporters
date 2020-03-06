@@ -1,4 +1,4 @@
-package dk.nationkraft.teleporters;
+package dk.benjamin1313.teleporters;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class TeleporterListManager {
 	private static FileConfiguration customFile;
 	
 	public static void setupTeleporterList() {
-		file = new File(Bukkit.getServer().getPluginManager().getPlugin("NationkraftTeleporters").getDataFolder(), "TeleporterList.yml");
+		file = new File(Bukkit.getServer().getPluginManager().getPlugin("Teleporters").getDataFolder(), "TeleporterList.yml");
 		
 		if(!file.exists()) {
 			try {

@@ -1,1 +1,8 @@
-Tool: Diamond_hoe
+ToolMaterial: Diamond_hoe
+ToolName: Magic Teleporter Wand
+ToolLore:
+    - Magic wand that allows
+    - its user to create teleporters
+
+TeleporterTop: lime_carpet
+TeleporterBottom: gold_block

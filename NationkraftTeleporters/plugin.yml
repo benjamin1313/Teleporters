@@ -1,17 +1,17 @@
-name: NationkraftTeleporters
+name: Teleporters
 author: Benjamin Frost
-main: dk.nationkraft.teleporters.Teleporters
+main: dk.benjamin1313.teleporters.Teleporters
 version: 1.0.0
 api-version: 1.13
 commands:
-  nkt:
-    description: Controls for NationkraftTeleporters
+  teleporters:
+    description: Controls Teleporters
 permissions:
-  nkt.*:
-    description: nkt permissions
+  teleporter.*:
+    description: teleporters permissions
     children:
-      nkt.useTeleporter: true
-      nkt.createTeleporter: false
-      nkt.deleteTeleporter: false
-      nkt.teleporterToolCommand: false
+      teleporter.useTeleporter: true
+      teleporter.createTeleporter: true
+      teleporter.deleteTeleporter: true
+      teleporter.teleporterToolCommand: false
       

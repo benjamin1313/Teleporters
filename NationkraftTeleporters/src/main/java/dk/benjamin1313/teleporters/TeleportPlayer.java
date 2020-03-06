@@ -1,4 +1,4 @@
-package dk.nationkraft.teleporters;
+package dk.benjamin1313.teleporters;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -35,7 +35,7 @@ public class TeleportPlayer implements Listener{
 		
 		Player player = event.getPlayer();
 		
-		if(!player.hasPermission("nkt.useTeleporter")) { // hvis spilleren ikke har perm til at bruge en teleporter sker der intet.
+		if(!player.hasPermission("teleporter.useTeleporter")) { // hvis spilleren ikke har perm til at bruge en teleporter sker der intet.
 			return;
 		}
 		
