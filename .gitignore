@@ -1,0 +1,20 @@
+# Libs and stuff
+/bukkit
+/lib
+/jar
+dependency-reduced-pom.xml
+
+# Eclipse Core
+/bin
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+.project
+/.settings/
+
+# IDEA
+/.idea/
+SeriousBusiness.iml
+
+# Maven build
+/target/
